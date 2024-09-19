@@ -46,7 +46,7 @@ fi
 echo "Touched last_update in $APP_PATH."
 
 # Download the service-restarter script
-curl -o /tmp/$APP_NAME.sh https://raw.githubusercontent.com/pxpxltd/service-restarter/master/src/service-restarter.sh
+curl -s -o /tmp/$APP_NAME.sh https://raw.githubusercontent.com/pxpxltd/service-restarter/master/src/service-restarter.sh
 if [[ $? -ne 0 ]]; then
     echo "Error: Failed to download service-restarter.sh from GitHub."
     exit 1
@@ -104,7 +104,7 @@ sed -e "s|REPLACE_APP_PATH|$APP_PATH|g" \
 echo "Configuration file created at $CONF_PATH."
 
 # Download the supervisor template and configure it
-curl -o /tmp/${APP_NAME}-supervisor.conf https://raw.githubusercontent.com/pxpxltd/service-restarter/master/templates/supervisor.conf
+curl -s -o /tmp/${APP_NAME}-supervisor.conf https://raw.githubusercontent.com/pxpxltd/service-restarter/master/templates/supervisor.conf
 if [[ $? -ne 0 ]]; then
     echo "Error: Failed to download supervisor config file."
     exit 1
@@ -114,7 +114,7 @@ fi
 # Replace placeholders in the supervisor template and copy to supervisor.d
 sed -e "s|APP_NAME|$APP_NAME|g" \
     -e "s|APP_PATH|$APP_PATH|g" \
-    -e "s|/usr/local/bin/APP_NAME-restarter|/usr/local/bin/$APP_NAME-restarter|g" \
+    -e "s|/usr/local/bin/APP_NAME|/usr/local/bin/$APP_NAME|g" \
     /tmp/${APP_NAME}-supervisor.conf > "$SUPERVISOR_CONF"
 echo "Supervisor config created at $SUPERVISOR_CONF."
 
@@ -124,5 +124,8 @@ read -p "Do you want to start the supervisor services now? [y/N]: " START_SUPERV
 if [[ "$START_SUPERVISOR" == "y" ]]; then
     supervisorctl update
 fi
+
+echo "Cleaning up temporary files..."
+rm /tmp/$APP_NAME.sh /tmp/${APP_NAME}-conf /tmp/${APP_NAME}-supervisor.conf
 
 echo "Installation of $APP_NAME completed."
