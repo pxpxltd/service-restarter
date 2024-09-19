@@ -43,8 +43,9 @@ if [[ $? -ne 0 ]]; then
     echo "Error: Failed to touch last_update in $APP_PATH."
     exit 1
 fi
+echo
 echo "Touched last_update in $APP_PATH."
-
+echo
 # Download the service-restarter script
 curl -s -o /tmp/$APP_NAME.sh https://raw.githubusercontent.com/pxpxltd/service-restarter/master/src/service-restarter.sh
 if [[ $? -ne 0 ]]; then
@@ -75,7 +76,7 @@ else
     chmod +x "$BIN_PATH"
     echo "Created new restarter: $BIN_PATH."
 fi
-
+echo
 # Step to define services to restart with defaults (modify services if needed)
 echo "Define services to restart. Press Enter to accept defaults."
 read -p "Systemctl services to restart (default: php-fpm,php8.2-fpm,php8.3-fpm): " SYSTEMCTL_SERVICES
@@ -86,9 +87,9 @@ SUPERVISOR_SERVICES=${SUPERVISOR_SERVICES:-""}
 
 read -p "PM2 services to restart (default: none): " PM2_SERVICES
 PM2_SERVICES=${PM2_SERVICES:-""}
-
+echo
 # Download the template configuration file for the service
-curl -o /tmp/${APP_NAME}-conf https://raw.githubusercontent.com/pxpxltd/service-restarter/master/templates/etc.conf
+curl -s -o /tmp/${APP_NAME}-conf https://raw.githubusercontent.com/pxpxltd/service-restarter/master/templates/etc.conf
 if [[ $? -ne 0 ]]; then
     echo "Error: Failed to download configuration file."
     exit 1
@@ -124,8 +125,8 @@ read -p "Do you want to start the supervisor services now? [y/N]: " START_SUPERV
 if [[ "$START_SUPERVISOR" == "y" ]]; then
     supervisorctl update
 fi
-
+echo
 echo "Cleaning up temporary files..."
 rm /tmp/$APP_NAME.sh /tmp/${APP_NAME}-conf /tmp/${APP_NAME}-supervisor.conf
-
+echo
 echo "Installation of $APP_NAME completed."
