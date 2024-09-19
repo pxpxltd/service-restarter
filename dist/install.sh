@@ -27,12 +27,12 @@ read -p "Enter the app directory path (default: $(pwd)): " APP_PATH
 APP_PATH=${APP_PATH:-$(pwd)}
 
 # Validate the app directory
-if [[ ! -d "$APP_PATH" ]]; then
+if [ ! -d "$APP_PATH" ]; then
     echo "Error: Directory $APP_PATH does not exist."
     exit 1
 fi
 
-if [[ ! -w "$APP_PATH" ]]; then
+if [ ! -w "$APP_PATH" ]; then
     echo "Error: Directory $APP_PATH is not writable."
     exit 1
 fi
