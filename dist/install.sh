@@ -10,7 +10,21 @@ APP_NAME=${APP_NAME:-$DEFAULT_APP_NAME}
 # Set the paths
 BIN_PATH="/usr/local/bin/$APP_NAME"
 CONF_PATH="/etc/$APP_NAME.conf"
-SUPERVISOR_CONF="/etc/supervisor.d/${APP_NAME}.conf"
+
+# Check for existing supervisor config directories
+if [ -d "/etc/supervisor.d/" ]; then
+    SUPERVISOR_CONF="/etc/supervisor.d/${APP_NAME}.conf"
+elif [ -d "/etc/supervisor/conf.d/" ]; then
+    SUPERVISOR_CONF="/etc/supervisor/conf.d/${APP_NAME}.conf"
+else
+    # Prompt user for custom supervisor config path
+    echo "Neither /etc/supervisor.d/ nor /etc/supervisor/conf.d/ exists."
+    read -p "Please enter the supervisor config directory path: " custom_path
+    SUPERVISOR_CONF="${custom_path}/${APP_NAME}.conf"
+fi
+
+# Output the selected or entered path for confirmation
+echo "Supervisor config will be placed at: $SUPERVISOR_CONF"
 
 # Check if /usr/local/bin/$APP_NAME exists
 if [[ -f "$BIN_PATH" ]]; then
