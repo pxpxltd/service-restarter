@@ -95,8 +95,8 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # Replace placeholders in the configuration template and copy to /etc
-sed -e "s|APP_PATH|$APP_PATH|g" \
-    -e "s|APP_NAME|$APP_NAME|g" \
+sed -e "s|REPLACE_APP_PATH|$APP_PATH|g" \
+    -e "s|REPLACE_APP_NAME|$APP_NAME|g" \
     -e "s|php-fpm,php8.2-fpm,php8.3-fpm|$SYSTEMCTL_SERVICES|g" \
     -e "s|my-supervisor-service-1,my-supervisor-service-2|$SUPERVISOR_SERVICES|g" \
     -e "s|my-pm2-app-1,my-pm2-app-2|$PM2_SERVICES|g" \
