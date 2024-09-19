@@ -119,7 +119,10 @@ sed -e "s|APP_NAME|$APP_NAME|g" \
 echo "Supervisor config created at $SUPERVISOR_CONF."
 
 # Reload supervisor to apply the new configuration
-supervisorctl update
-supervisorctl reload
+supervisorctl reread
+read -p "Do you want to start the supervisor services now? [y/N]: " START_SUPERVISOR
+if [[ "$START_SUPERVISOR" == "y" ]]; then
+    supervisorctl update
+fi
 
 echo "Installation of $APP_NAME completed."
