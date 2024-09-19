@@ -38,8 +38,6 @@ restart_systemctl_services() {
             echo "Restarting systemctl service: $SERVICE"
             systemctl restart "$SERVICE"
         done
-    else
-        echo "No systemctl services defined."
     fi
 }
 
@@ -51,8 +49,6 @@ restart_supervisor_services() {
             echo "Restarting supervisor service: $SERVICE"
             supervisorctl restart "$SERVICE"
         done
-    else
-        echo "No supervisor services defined."
     fi
 }
 
@@ -64,8 +60,6 @@ restart_pm2_services() {
             echo "Restarting pm2 service: $SERVICE"
             pm2 restart "$SERVICE"
         done
-    else
-        echo "No pm2 services defined."
     fi
 }
 
@@ -83,6 +77,7 @@ while true; do
 
     # If the hashes don't match, the file has changed
     if [[ $CURRENT_HASH != $LAST_HASH ]]; then
+        date
         # Save current hash as the last known hash
         echo "$CURRENT_HASH" > "$LAST_HASH_FILE"
 
