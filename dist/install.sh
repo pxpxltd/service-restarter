@@ -50,7 +50,7 @@ fi
 echo "Touched last_update in $APP_PATH."
 
 # Download the service-restarter script
-curl -o /tmp/$APP_NAME.sh https://raw.githubusercontent.com/pxpxltd/service-restarter/master/src/service-restarter.sh
+curl -o /tmp/$APP_NAME.sh https://raw.githubusercontent.com/pxpxltd/service-restarter/refs/heads/master/src/service-restarter.sh
 if [[ $? -ne 0 ]]; then
     echo "Error: Failed to download service-restarter.sh from GitHub."
     exit 1
@@ -92,7 +92,7 @@ read -p "PM2 services to restart (default: none): " PM2_SERVICES
 PM2_SERVICES=${PM2_SERVICES:-""}
 
 # Download the template configuration file for the service
-curl -o /tmp/${APP_NAME}-conf https://raw.githubusercontent.com/pxpxltd/service-restarter/master/templates/etc.conf
+curl -o /tmp/${APP_NAME}-conf https://raw.githubusercontent.com/pxpxltd/service-restarter/refs/heads/master/templates/etc.conf
 if [[ $? -ne 0 ]]; then
     echo "Error: Failed to download configuration file."
     exit 1
@@ -108,7 +108,7 @@ sed -e "s|{APP_PATH}|$APP_PATH|g" \
 echo "Configuration file created at $CONF_PATH."
 
 # Download the supervisor template and configure it
-curl -o /tmp/${APP_NAME}-supervisor.conf https://raw.githubusercontent.com/pxpxltd/service-restarter/master/templates/supervisor.conf
+curl -o /tmp/${APP_NAME}-supervisor.conf https://raw.githubusercontent.com/pxpxltd/service-restarter/refs/heads/master/templates/supervisor.conf
 if [[ $? -ne 0 ]]; then
     echo "Error: Failed to download supervisor config file."
     exit 1
